@@ -111,7 +111,7 @@
     FormatDate: function (unformatted) {
         if (unformatted) {
             return moment(unformatted).format("MM/DD/YYYY");
-        }        
+        }
     },
 
     CreatePopOver: function (ctrl, title, message) {
@@ -137,46 +137,5 @@
         $(this.Modal.Content).append(this.Modal.Footer);
         $(this.Modal.Dialog).append(this.Modal.Content);
         $(this.Modal.Container).append(this.Modal.Dialog);
-    },
-
-    // Deprecated
-    CreateElement: function (type, name, cssClass, dataVal, value) {
-        var element = document.createElement(type);
-        element.id = name;
-        $(element).addClass(cssClass);
-        $(element).attr("data-val", dataVal);
-        $(element).text(value);
-
-        return element;
-    },
-
-    // Deprecated
-    BuildElement: function (property) {
-        var element = document.createElement(property.type);
-
-        if (property.isCheckbox) {
-            element.type = "checkbox"
-        }
-
-        if (property.name) {
-            element.id = property.name;
-        }
-
-        if (property.value != "") {
-            element.value = property.value;
-        }
-
-        $(element).addClass(property.cssClass);
-        $(element).attr("data-val", property.dataVal);
-
-        if (property.text != "") {
-            if (property.type == "div" || property.type == "span" || property.type == "label") {
-                $(element).html(property.text);
-            } else {
-                $(element).text(property.text);
-            }
-        }
-
-        return element;
     },
 });

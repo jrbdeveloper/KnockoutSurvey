@@ -21,30 +21,12 @@
             case "DEV":
                 return "/";
             case "TEST":
-                return "/studentsuccess/";
+                return "/";
             case "STAGE":
-                return "/studentsuccess/";
+                return "/";
             case "PROD":
-                return "/studentsuccess/";
+                return "/";
         }
-    },
-
-    GetRole: function (val) {
-        return (isNaN(val))
-            ? this._getRoleNumber(val)
-            : this._getRoleName(val);
-    },
-       
-    GetAcademicYear: function (val) {
-        return (isNaN(val))
-            ? this._getAcademicYearNumber(val)
-            : this._getAcademicYearName(val);
-    },
-
-    GetStatus: function (val) {
-        return (isNaN(val))
-            ? this._getStatusId(val)
-            : this._getStatusString(val);
     },
 
     Cancel: function () {
@@ -52,7 +34,7 @@
             document.location.reload();
         });
     },
-    
+
     Submit: function (ctrl, frm, action) {
         var self = this;
 
@@ -62,7 +44,7 @@
             frm.submit();
         });
     },
-    
+
     GetModel: function (id, api, async) {
         var model = this._get({ id: id }, api, async);
 
@@ -74,13 +56,13 @@
 
         return result;
     },
-    
+
     GetList: function (data, api, async) {
         var list = this._getList(data, api, async, "POST");
 
         return list;
     },
-    
+
     DeleteModel: function (id, api) {
         return this._get({ id: id }, api, false);
     },
@@ -105,7 +87,7 @@
             }
         });
     },
-    
+
     CreateIncrementer: function (ctrl) {
         var self = this;
         var incrementer = $(ctrl).TouchSpin({
@@ -122,93 +104,6 @@
         });
 
         return incrementer;
-    },
-
-    _getStatusString: function (val) {
-        switch (val) {
-            case 1:
-                return "New";
-
-            case 2:
-                return "In Progress";
-
-            case 3:
-                return "Completed";
-        }
-    },
-
-    _getStatusId: function (val) {
-        switch (val) {
-            case "New":
-                return 1;
-
-            case "InProgress":
-                return 2;
-
-            case "Completed":
-                return 3;
-        }
-    },
-
-    _getAcademicYearNumber: function (val) {
-        switch (val) {
-            case "FirstPanel":
-            case "FirstYear":
-                return 1;
-            case "SecondPanel":
-            case "SecondYear":
-                return 2;
-            case "ThirdPanel":
-            case "ThirdYear":
-                return 3;
-            case "FourthPanel":
-            case "FourthYear":
-                return 4;
-            case "FifthPanel":
-            case "PostUCSD":
-                return 5;
-        }
-    },
-
-    _getAcademicYearName: function (val) {
-        if (val > 0) {
-            switch (val) {
-                case 1:
-                    return "First";
-                case 2:
-                    return "Second";
-                case 3:
-                    return "Third";
-                case 4:
-                    return "Fourth";
-                case 5:
-                    return "Post UCSD";
-            }
-        }
-    },
-
-    _getRoleNumber: function (val) {
-        switch (val) {
-            case "Coach":
-                return 1;
-            case "Mentor":
-                return 2;
-            case "Student":
-                return 3;
-        }
-    },
-
-    _getRoleName: function (val) {
-        if (val > 0) {
-            switch (val) {
-                case 1:
-                    return "Coach";
-                case 2:
-                    return "Mentor";
-                case 3:
-                    return "Student";
-            }
-        }
     },
 
     _getList: function (data, api, async, method) {
@@ -234,7 +129,7 @@
     _get: function (data, api, async) {
         var self = this;
         var ret;
-        
+
         $.ajax({
             method: "GET",
             url: api,
@@ -246,7 +141,7 @@
         }).fail(function (obj, msg) {
             self.Helpers.ShowError("Error requesting data from service.", JSON.stringify(obj) + ' ' + msg);
         });
-        
+
         return ret;
     },
 
@@ -257,7 +152,7 @@
             click: function () {
                 self.Helpers.ShowProcessing();
 
-                if (window.history.back() != undefined) {    
+                if (window.history.back() != undefined) {
                     window.history.back();
                 } else {
                     self.Helpers.HideProcessing();
@@ -277,7 +172,7 @@
             }
         });
     },
-    
+
     _post: function (data, api, async) {
         var self = this;
         var ret;

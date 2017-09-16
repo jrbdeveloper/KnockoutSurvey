@@ -1,13 +1,8 @@
 ﻿$.widget("custom.Navigation", {
     options: {
-        Roles: {
-            Coach: "Coach",
-            Mentor: "Mentor",
-            Student: "Student"
-        }
     },
 
-    _init: function () {        
+    _init: function () {
         this.Application.WriteLog("Navigation: Initialized");
     },
 
@@ -18,7 +13,7 @@
         this._determineActivePage();
         this._updateMenu();
     },
-    
+
     _registerEvents: function () {
         var self = this;
 
@@ -28,7 +23,7 @@
             click: function (e) {
                 try {
                     self.Application.WriteLog("Navigation: Item Clicked, checking for changes");
-                    
+
                     if (self.Application.Tracker.HasChanges(e)) {
                         e.preventDefault();
                         self.Application.Helpers.ShowError('Unsaved Changes', 'Information on the page has changed. Want to save your changes?');
@@ -41,7 +36,7 @@
             }
         });
     },
-    
+
     _determineActivePage: function () {
         var self = this;
 
@@ -53,65 +48,10 @@
 
         if (self.options.page) {
             $('#' + self.options.page).addClass("active");
-        }        
-    },
-
-    _updateMenu: function () {
-        var self = this;
-
-        console.log(this.options.Role);
-        if (self.options.BasedOnUserInContext == "True") {
-            self.CoachItems.hide();
-            self.UnknownItems.hide();
-            self.StudentItems.show();
-
-            if (this.options.Role == self.options.Roles.Coach) {
-                self.CoachItems.show();
-            }
-
-            if (this.options.Role == self.options.Roles.Mentor) {
-                self.MentorItems.show();
-            }
-        } else {
-            switch (this.options.Role) {
-                case self.options.Roles.Coach:
-                    self.StudentItems.hide();
-                    self.UnknownItems.hide();
-                    self.CoachItems.show();
-                    break;
-
-                case self.options.Roles.Mentor:
-                    self.StudentItems.hide();
-                    self.CoachItems.hide();
-                    self.UnknownItems.hide();
-                    self.MentorItems.show();
-                    break;
-
-                case self.options.Roles.Student:
-                    self.CoachItems.hide();
-                    self.UnknownItems.hide();
-                    self.StudentItems.show();
-                    break;
-
-                default:
-                    self.StudentItems.hide();
-                    self.CoachItems.hide();
-                    self.MentorItems.hide();
-
-                    if (this.options.Role == '') {
-                        self.UnknownItems.show();
-                    }
-
-                    break;
-            }
-        }        
+        }
     },
 
     _initializeControls: function () {
         this.navItem = $(".nav-item");
-        this.StudentItems = $(".student");
-        this.CoachItems = $(".coach");
-        this.MentorItems = $(".mentor");
-        this.UnknownItems = $(".unknown");
     },
 });
