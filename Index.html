@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Survey</title>
+    <link href="css/bootstrap.css" rel="stylesheet"/>
+	<link href="css/site.css" rel="stylesheet"/>
+	<link href="css/jquery-ui.css" rel="stylesheet"/>
+
+    <script src="Scripts/modernizr-2.6.2.js"></script>
+	<script src="Scripts/underscore.min.js"></script>
+	<script src="Scripts/knockout-3.4.2.debug.js"></script>
+    <script src="Scripts/jquery-1.10.2.js"></script>
+	<script src="Scripts/jquery-ui.min.js"></script>
+    <script src="Scripts/bootstrap.js"></script>
+	<script src="Scripts/respond.js"></script>
+	
+	<script src="Scripts/App/Common/controls.module.js"></script>
+	<script src="Scripts/App/Common/helpers.module.js"></script>
+	<script src="Scripts/App/Common/change.tracker.module.js"></script>
+	<script src="Scripts/App/Common/application.module.js"></script>
+</head>
+<body>
+
+<div class="container" id="survey-container">
+	<h2>Sample Knockout.js Application</h2>
+
+    <div class="panel panel-info">
+        <div class="panel-heading" data-bind="text: Page().Name"></div>
+        <div class="panel-body well well-sm margin-0">
+            <div class="row-fluid">
+                <div data-bind="foreach: $root.PageQuestions(Page().Questions)">
+                    <label data-bind="text: Text"></label>
+
+                    <div data-bind="foreach: $root.QuestionAnswers(Answers())">
+                        <span class="col-md-1 nowrap">
+                            <input data-bind="attr: {name:$parent.ID}, click: $root.GoToPage.bind(NextPage)" type="radio" />&nbsp;
+                            <span data-bind="text: Text"></span>
+                        </span>
+                    </div><br />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="btn-group" role="group" aria-label="...">
+        <button class="btn btn-default" id="back" data-bind="click:Back, enable: CurrentPage() > 1" aria-label="Left Align">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Back
+        </button>
+
+        <button class="btn btn-default" id="next" data-bind="click:Next, enable: CurrentPage() < Pages().length" aria-label="Left Align">
+            Next <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        </button>
+    </div>
+</div>
+
+<script src="Scripts/App/Models/survey.model.js"></script>
+<script src="Scripts/App/survey.module.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#survey-container").SurveyModule();
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+	Pages: [
+		{ ID: 1, Name: "Visa Status", Questions: [1] },
+		{ ID: 2, Name: "OPT Authorization", Questions: [2] },
+		{ ID: 3, Name: "Page 3", Questions: [3] },
+		{ ID: 4, Name: "Page 4", Questions: [4] }],
+
+	Questions: [
+		{ ID: 1, Text: "What is your current visa status?", Answers: [1, 2, 3, 4] },
+		{ ID: 2, Text: "Are you currently authorized for OPT?", Answers: [5, 6] },
+		{ ID: 3, Text: "When will SEVIS record transfer to UCSD?", Answers: [] },
+		{ ID: 4, Text: "J-1 Visa category?", Answers: [7, 4] }],
+
+	Answers: [
+		{ ID: 1, Text: "F-1", NextPage: 2 },
+		{ ID: 2, Text: "J-1", NextPage: 2 },
+		{ ID: 3, Text: "None", NextPage: 2 },
+		{ ID: 4, Text: "Other", NextPage: 2 },
+		{ ID: 5, Text: "Yes", NextPage: 3 },
+		{ ID: 6, Text: "No", NextPage: 3 },
+		{ ID: 7, Text: "Student", NextPage: 4 }]
+}
