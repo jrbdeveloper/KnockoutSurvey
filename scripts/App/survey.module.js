@@ -6,7 +6,7 @@
   },
 
     SurveyModel: function (model) {
-        return new ApplicationSurvey(model);
+        return new App.Survey(model);
     },
 
     _create: function () {

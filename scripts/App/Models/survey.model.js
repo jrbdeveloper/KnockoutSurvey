@@ -1,8 +1,12 @@
-﻿var ApplicationSurvey = function (model) {
-    var self = this;
-    var currentPage = 1;
+var App = App || {};
 
-    self.CurrentPage = ko.observable(currentPage);
+App.Survey = function (model) {
+    var self = this;
+    var pageNumber = 1;
+
+    self.PageNumber = ko.observable(pageNumber);
+
+    self.TrackedPath = new App.List();
 
     self.Pages = ko.observableArray(ko.utils.arrayMap(model.Pages, function (page) {
         return {
@@ -12,7 +16,7 @@
         };
     }));
 
-    self.Page = ko.observable(_.findWhere(self.Pages(), { ID: currentPage }));
+    self.Page = ko.observable(_.findWhere(self.Pages(), { ID: pageNumber }));
 
     self.Questions = ko.observableArray(ko.utils.arrayMap(model.Questions, function (question) {
         return {
@@ -38,7 +42,7 @@
         return list();
     };
 
-    self.QuestionAnswers = function (answers) {        
+    self.QuestionAnswers = function (answers) {
         var list = ko.observableArray(ko.utils.arrayMap(answers, function (id) {
             return _.findWhere(self.Answers(), { ID: id });
         }));
@@ -47,21 +51,33 @@
     };
 
     self.Next = function () {
-        currentPage++;
-        self.Page(_.findWhere(self.Pages(), { ID: currentPage }));
-        self.CurrentPage(currentPage);
+        pageNumber++;
+        self.Page(_.findWhere(self.Pages(), { ID: pageNumber }));
+        self.PageNumber(pageNumber);
     };
 
     self.Back = function () {
-        currentPage--;
-        self.Page(_.findWhere(self.Pages(), { ID: currentPage }));
-        self.CurrentPage(currentPage);
+        if (self.TrackedPath._length >= 0) {
+            var previousNode = self.TrackedPath.GetNodeAt(self.TrackedPath._length-1);
+
+            if (previousNode) {
+                self.Page(_.findWhere(self.Pages(), {ID: previousNode.data.data.ID}));
+                //console.log(self.TrackedPath._length--);
+            }
+        }
     };
 
     self.GoToPage = function (page) {
+        self.TrackPath(self.Page());
+
         ///TODO: Save user selection here as well
-        currentPage = page.NextPage;
-        self.Page(_.findWhere(self.Pages(), { ID: currentPage }));
-        self.CurrentPage(currentPage);
+        pageNumber = page.NextPage;
+        self.Page(_.findWhere(self.Pages(), { ID: pageNumber }));
+        self.PageNumber(pageNumber);
+    };
+
+    self.TrackPath = function(page) {
+        // Add a node to the linked list here
+        self.TrackedPath.Add(new App.Node(page));
     };
 };
