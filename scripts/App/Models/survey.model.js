@@ -2,9 +2,9 @@ var App = App || {};
 
 App.Survey = function (model) {
     var self = this;
-    var pageNumber = 1;
+    var currentPage = 1;
 
-    self.PageNumber = ko.observable(pageNumber);
+    self.CurrentPage = ko.observable(currentPage);
 
     self.TrackedPath = new App.List();
 
@@ -16,7 +16,7 @@ App.Survey = function (model) {
         };
     }));
 
-    self.Page = ko.observable(_.findWhere(self.Pages(), { ID: pageNumber }));
+    self.Page = ko.observable(_.findWhere(self.Pages(), { ID: currentPage }));
 
     self.Questions = ko.observableArray(ko.utils.arrayMap(model.Questions, function (question) {
         return {
@@ -51,9 +51,9 @@ App.Survey = function (model) {
     };
 
     self.Next = function () {
-        pageNumber++;
-        self.Page(_.findWhere(self.Pages(), { ID: pageNumber }));
-        self.PageNumber(pageNumber);
+        currentPage++;
+        self.Page(_.findWhere(self.Pages(), { ID: currentPage }));
+        self.CurrentPage(currentPage);
     };
 
     self.Back = function () {
@@ -62,7 +62,7 @@ App.Survey = function (model) {
 
             if (previousNode) {
                 self.Page(_.findWhere(self.Pages(), {ID: previousNode.data.data.ID}));
-                //console.log(self.TrackedPath._length--);
+                console.log(self.TrackedPath._length--);
             }
         }
     };
@@ -71,9 +71,9 @@ App.Survey = function (model) {
         self.TrackPath(self.Page());
 
         ///TODO: Save user selection here as well
-        pageNumber = page.NextPage;
-        self.Page(_.findWhere(self.Pages(), { ID: pageNumber }));
-        self.PageNumber(pageNumber);
+        currentPage = page.NextPage;
+        self.Page(_.findWhere(self.Pages(), { ID: currentPage }));
+        self.CurrentPage(currentPage);
     };
 
     self.TrackPath = function(page) {
