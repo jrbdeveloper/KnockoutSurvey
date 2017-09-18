@@ -51,10 +51,9 @@ App.Survey = function (model) {
     };
 
     self.Next = function () {
-        //currentPage++;
-        //self.Page(_.findWhere(self.Pages(), { ID: currentPage }));
-        //self.CurrentPage(currentPage);
-
+        currentPage++;
+        self.Page(_.findWhere(self.Pages(), { ID: currentPage }));
+        self.CurrentPage(currentPage);
     };
 
     self.Back = function () {
@@ -80,6 +79,5 @@ App.Survey = function (model) {
     self.TrackPath = function(page) {
         // Add a node to the linked list here
         self.TrackedPath.Add(new App.Node(page));
-        console.log(self.TrackedPath);
     };
 };
