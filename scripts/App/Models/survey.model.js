@@ -51,18 +51,22 @@ App.Survey = function (model) {
     };
 
     self.Next = function () {
-        currentPage++;
-        self.Page(_.findWhere(self.Pages(), { ID: currentPage }));
-        self.CurrentPage(currentPage);
+        var currentNodePosition = self.TrackedPath.GetNodePosition(self.Page(_.findWhere(self.Pages(), { ID: currentPage })));
+        var currentNode = self.TrackedPath.GetNodeAt(currentNodePosition);
+
+        if (currentNode) {
+          self.Page(_.findWhere(self.Pages(), {ID: currentNode.next.data.data.ID}));
+        }
+
+        console.log(self.TrackedPath.length);
     };
 
     self.Back = function () {
-        if (self.TrackedPath._length >= 0) {
-            var previousNode = self.TrackedPath.GetNodeAt(self.TrackedPath._length-1);
+        if (self.TrackedPath.length >= 0) {
+            var previousNode = self.TrackedPath.GetNodeAt(self.TrackedPath.length-1);
 
             if (previousNode) {
                 self.Page(_.findWhere(self.Pages(), {ID: previousNode.data.data.ID}));
-                console.log(self.TrackedPath._length--);
             }
         }
     };
