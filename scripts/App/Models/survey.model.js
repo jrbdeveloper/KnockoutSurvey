@@ -4,9 +4,13 @@ App.Survey = function (model) {
     var self = this;
     var currentPage = 1;
 
-    self.CurrentPage = ko.observable(currentPage);
+    self.TrackedIndex = 0;
 
-    self.TrackedPath = new App.List();
+    self.TrackedPath = [];
+
+    self.PageIndex = 0;
+
+    self.CurrentPage = ko.observable(currentPage);
 
     self.Pages = ko.observableArray(ko.utils.arrayMap(model.Pages, function (page) {
         return {
@@ -17,6 +21,11 @@ App.Survey = function (model) {
     }));
 
     self.Page = ko.observable(_.findWhere(self.Pages(), { ID: currentPage }));
+
+    self.AddFirst = function(){
+        trackedPath[pageIndex] = self.Page();
+        pageIndex++;
+    };
 
     self.Questions = ko.observableArray(ko.utils.arrayMap(model.Questions, function (question) {
         return {
@@ -50,25 +59,26 @@ App.Survey = function (model) {
         return list();
     };
 
-    self.Next = function () {
-        var currentNodePosition = self.TrackedPath.GetNodePosition(self.Page(_.findWhere(self.Pages(), { ID: currentPage })));
-        var currentNode = self.TrackedPath.GetNodeAt(currentNodePosition);
+    self.Forward = function () {
+        self.PageIndex = self.TrackedPath.indexOf(self.Page());
 
-        if (currentNode) {
-          self.Page(_.findWhere(self.Pages(), {ID: currentNode.next.data.data.ID}));
+        if(self.PageIndex+1 <= self.TrackedIndex){
+          self.Page(self.TrackedPath[self.PageIndex+1]);
         }
 
-        console.log(self.TrackedPath.length);
+        //console.log(currentPageIndex);
+        self.ShowLog();
     };
 
     self.Back = function () {
-        if (self.TrackedPath.length >= 0) {
-            var previousNode = self.TrackedPath.GetNodeAt(self.TrackedPath.length-1);
-
-            if (previousNode) {
-                self.Page(_.findWhere(self.Pages(), {ID: previousNode.data.data.ID}));
-            }
+        self.PageIndex = self.TrackedPath.indexOf(self.Page());
+        
+        if(self.PageIndex-1 != -1) {
+          self.Page(self.TrackedPath[self.PageIndex-1]);
         }
+
+        //console.log(currentPageIndex);
+        self.ShowLog();
     };
 
     self.GoToPage = function (page) {
@@ -78,10 +88,22 @@ App.Survey = function (model) {
         currentPage = page.NextPage;
         self.Page(_.findWhere(self.Pages(), { ID: currentPage }));
         self.CurrentPage(currentPage);
+
+        self.TrackedPath[self.TrackedIndex] = self.Page();
     };
 
     self.TrackPath = function(page) {
-        // Add a node to the linked list here
-        self.TrackedPath.Add(new App.Node(page));
+        self.TrackedPath[self.TrackedIndex] = page;
+        self.TrackedIndex++;
+
+        self.ShowLog();
     };
+
+
+    self.ShowLog = function () {
+        console.log("Tracked Index: " + self.TrackedIndex);
+        console.log("Page Index: " + self.PageIndex);
+    };
+
+    self.ShowLog();
 };
